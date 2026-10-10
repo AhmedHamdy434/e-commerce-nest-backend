@@ -60,7 +60,7 @@ export class AuthService {
 
     const payload: JwtPayload = {
       sub: user.id,
-      role: user.role as AppRole,
+      role: user.role,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
@@ -98,7 +98,7 @@ export class AuthService {
 
     const payload: JwtPayload = {
       sub: user.id,
-      role: user.role as AppRole,
+      role: user.role,
     };
 
     const accessToken = await this.jwtService.signAsync(payload);
@@ -111,10 +111,6 @@ export class AuthService {
       accessToken,
     };
   }
-
-  /**
-   * جلب الملف الشخصي للمستخدم عبر معرفه (User Profile)
-   */
   async getProfile(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },

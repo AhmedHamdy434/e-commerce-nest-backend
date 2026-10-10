@@ -7,42 +7,49 @@ export const MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024;
 
 @Injectable()
 export class ImageValidationPipeInstance implements PipeTransform<
-  Express.Multer.File | undefined,
-  Express.Multer.File | undefined
+  Express.Multer.File | Express.Multer.File[] | undefined,
+  Express.Multer.File | Express.Multer.File[] | undefined
 > {
   constructor(private readonly required: boolean = true) {}
 
-  transform(file?: Express.Multer.File): Express.Multer.File | undefined {
-    // 1. إذا كان الملف اختيارياً ولم يتم إرساله
-    if (!file) {
-      if (this.required) {
-        throw new BadRequestException('يرجى اختيار صورة للرفع.');
-      }
-      return undefined;
-    }
-
-    // 2. التحقق من حجم الملف
+  private validateSingleFile(file: Express.Multer.File): void {
     if (file.size > MAX_IMAGE_SIZE) {
       throw new BadRequestException(
-        `حجم الصورة يجب ألا يتجاوز ${MAX_IMAGE_SIZE_MB} ميجابايت.`,
+        `حجم الصورة (${file.originalname}) يجب ألا يتجاوز ${MAX_IMAGE_SIZE_MB} ميجابايت.`,
       );
     }
 
-    // 3. التحقق من الـ Magic Bytes ومنع SVG وتزييف الـ MIME
     if (!file.buffer) {
-      throw new BadRequestException('فشل قراءة محتوى الملف المرفوع.');
+      throw new BadRequestException(
+        `فشل قراءة محتوى الملف المرفوع (${file.originalname}).`,
+      );
     }
 
     verifyImageMagicBytes(file.buffer, file.originalname, file.mimetype);
+  }
 
-    return file;
+  transform(
+    files?: Express.Multer.File | Express.Multer.File[],
+  ): Express.Multer.File | Express.Multer.File[] | undefined {
+    if (!files || (Array.isArray(files) && files.length === 0)) {
+      if (this.required) {
+        throw new BadRequestException('يرجى اختيار صورة للرفع.');
+      }
+      return files;
+    }
+
+    if (Array.isArray(files)) {
+      for (const file of files) {
+        this.validateSingleFile(file);
+      }
+      return files;
+    }
+
+    this.validateSingleFile(files);
+    return files;
   }
 }
 
-/**
- * دالة مصنعية لإنشاء Pipe التحقق من الصور مع تحديد ما إذا كان الملف إلزامياً أم اختيارياً.
- * مثال: `@UploadedFile(ImageValidationPipe(false)) logo?: Express.Multer.File`
- */
 export function ImageValidationPipe(required = true): PipeTransform {
   return new ImageValidationPipeInstance(required);
 }

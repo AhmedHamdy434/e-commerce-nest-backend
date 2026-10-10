@@ -6,6 +6,9 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { PrismaModule } from './database/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { ProductsModule } from './modules/products/products.module';
+import { ProductImagesModule } from './modules/product-images/product-images.module';
 
 @Module({
   imports: [
@@ -22,6 +25,9 @@ import { AuthModule } from './modules/auth/auth.module';
     JwtModule.register({ global: true }),
     PrismaModule,
     AuthModule,
+    CategoriesModule,
+    ProductsModule,
+    ProductImagesModule,
   ],
   controllers: [],
   providers: [
