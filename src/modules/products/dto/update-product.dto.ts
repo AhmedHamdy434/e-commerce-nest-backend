@@ -2,8 +2,8 @@ import { PartialType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';
 import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { CreateProductDto } from './create-product.dto';
-import { UpdateProductImageDto } from './update-product-image.dto';
 import { ToStringArray } from 'src/common/decorators/to-string-array.decorator';
+import { UpdateProductImageDto } from 'src/modules/product-images/dto/update-product-image.dto';
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {
   @IsOptional()
