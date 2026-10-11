@@ -9,6 +9,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
+import { CartModule } from './modules/cart/cart.module';
+import { CartItemsModule } from './modules/cart-items/cart-items.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { ProductImagesModule } from './modules/product-images/product-images.mod
     CategoriesModule,
     ProductsModule,
     ProductImagesModule,
+    CartModule,
+    CartItemsModule,
   ],
   controllers: [],
   providers: [
