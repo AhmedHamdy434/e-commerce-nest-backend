@@ -12,6 +12,9 @@ import { ProductImagesModule } from './modules/product-images/product-images.mod
 import { CartModule } from './modules/cart/cart.module';
 import { CartItemsModule } from './modules/cart-items/cart-items.module';
 import { CouponsModule } from './modules/coupons/coupons.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { OrderItemsModule } from './modules/order-items/order-items.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
 
 @Module({
   imports: [
@@ -34,6 +37,9 @@ import { CouponsModule } from './modules/coupons/coupons.module';
     CartModule,
     CartItemsModule,
     CouponsModule,
+    OrdersModule,
+    OrderItemsModule,
+    ReviewsModule,
   ],
   controllers: [],
   providers: [
