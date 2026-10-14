@@ -11,6 +11,7 @@ import { ProductsModule } from './modules/products/products.module';
 import { ProductImagesModule } from './modules/product-images/product-images.module';
 import { CartModule } from './modules/cart/cart.module';
 import { CartItemsModule } from './modules/cart-items/cart-items.module';
+import { CouponsModule } from './modules/coupons/coupons.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CartItemsModule } from './modules/cart-items/cart-items.module';
     ProductImagesModule,
     CartModule,
     CartItemsModule,
+    CouponsModule,
   ],
   controllers: [],
   providers: [
